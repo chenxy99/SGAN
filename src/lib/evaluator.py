@@ -705,8 +705,8 @@ class Evaluator(object):
             img_recall, caption_recall = self._measure_recall_step_aspect()
         else:
             img_recall, caption_recall = self._measure_recall_task_aspect()
-        # img_graph, caption_graph = self._measure_graph_for_gt_steps_separate_goal()
-        img_graph, caption_graph = self._measure_graph_for_gt_steps()
+        img_graph, caption_graph = self._measure_graph_for_gt_steps_separate_goal()
+        # img_graph, caption_graph = self._measure_graph_for_gt_steps()
         image_completion, image_in_degree_completion, image_out_degree_completion, \
         caption_completion, caption_in_degree_completion, caption_out_degree_completion = self._measure_completion()
         image_attention, caption_attention = self._measure_attention()
