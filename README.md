@@ -46,6 +46,9 @@ If you complete the model training, you can run the following commands to evalua
 $ python eval.py --split test
 ```
 
+We also provide the [`pretrained model`](https://drive.google.com/file/d/1n7H9Y62uA4cqWrskb0bZuR7IoSyTF1bH/view?usp=share_link), 
+and you can directly run the following command to evaluate the performance of the pretrained model on test split.
+
 Reference
 ------------------
 If you find the code useful in your research, please consider citing the paper.
