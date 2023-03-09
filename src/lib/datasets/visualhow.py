@@ -41,7 +41,7 @@ class RawImageDataset(Dataset):
         self.max_goal_length = opt.max_goal_length
         self.max_problem_solving_step = opt.max_problem_solving_step
 
-        loc_info = osp.join(data_path, "final_result_1_29_update.json")
+        loc_info = osp.join(data_path, "dataset.json")
         # get wikihow data information
         with open(loc_info) as f:
             data = json.load(f)
