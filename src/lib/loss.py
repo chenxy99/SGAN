@@ -18,6 +18,39 @@ def cal_sim_score(pred, gt, mask=None):
 
     return sim_score
 
+def cal_cc_score(pred, gt, mask=None):
+    eps = 1e-15
+    if mask is not None:
+        gt[mask > 0] = gt[mask > 0] + eps
+    else:
+        gt = gt + eps
+
+    gt = gt / gt.sum(-1, keepdim=True)
+
+    if mask is not None:
+        pred_mean = (pred * mask).sum(-1, keepdim=True) / mask.sum(-1, keepdim=True)
+        gt_mean = (gt * mask).sum(-1, keepdim=True) / mask.sum(-1, keepdim=True)
+
+        pred_std = torch.sqrt((((pred - pred_mean) * mask) ** 2).sum(-1, keepdim=True) / (mask.sum(-1, keepdim=True) - 1))
+        gt_std = torch.sqrt((((gt - gt_mean) * mask) ** 2).sum(-1, keepdim=True) / (mask.sum(-1, keepdim=True) - 1))
+        cov = ((pred - pred_mean) * (gt - gt_mean) * mask).sum(-1, keepdim=True) / (mask.sum(-1, keepdim=True) - 1)
+
+    else:
+        pred_mean = pred.mean(-1, keepdim=True)
+        gt_mean = gt.mean(-1, keepdim=True)
+        pred_std =  torch.sqrt( ((pred - pred_mean)**2).sum(-1, keepdim=True) / (pred.shape[-1] - 1))
+        gt_std = torch.sqrt(((gt - gt_mean) ** 2).sum(-1, keepdim=True) / (gt.shape[-1] - 1))
+        cov = ((pred - pred_mean) * (gt - gt_mean)).sum(-1, keepdim=True) / (gt.shape[-1] - 1)
+
+    cc_score = cov / ((pred_std + eps) * (gt_std + eps))
+    # cc_score[torch.abs(cc_score) <= eps] = 1
+
+    cc_score = (cc_score + 1) / 2
+    cc_score = cc_score.squeeze(-1)
+
+    return cc_score
+
+
 
 # JSD Jensen–Shannon divergence score
 def cal_jsd_score(pred, gt, mask=None):
@@ -1088,6 +1121,8 @@ class TaskCompletionLoss(nn.Module):
             self.similarity_function = cal_jsd_score
         elif self.opt.similarity == "sim":
             self.similarity_function = cal_sim_score
+        elif self.opt.similarity == "cc":
+            self.similarity_function = cal_cc_score
         else:
             raise "No implementation"
         self.weighted_task_completion = self.opt.weighted_task_completion
@@ -1191,6 +1226,8 @@ class StepwiseTaskCompletionLoss(nn.Module):
             self.similarity_function = cal_jsd_score
         elif self.opt.similarity == "sim":
             self.similarity_function = cal_sim_score
+        elif self.opt.similarity == "cc":
+            self.similarity_function = cal_cc_score
         else:
             raise "No implementation"
         self.weighted_task_completion = self.opt.weighted_task_completion
