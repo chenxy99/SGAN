@@ -1,4 +1,4 @@
-# Learning to Solve Real-World Problems with Graph-Based Attention
+# Every Problem, Every Step, All In Focus: Learning to Solve Vision-Language Problems with Integrated Attention
 
 This code implements the prediction of solution graph of for real-world problems by incorporating a novel integrated attention mechanism considering the importance of
 features within each step as well as across multiple steps.
