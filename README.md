@@ -53,5 +53,10 @@ Reference
 ------------------
 If you find the code useful in your research, please consider citing the paper.
 ```text
-TBD
+@article{xianyu:2024:sgan,
+    Author         = {Xianyu Chen and Jinhui Yang and Shi Chen and Louis Wang and Ming Jiang and Qi Zhao},
+    Title          = {Every Problem, Every Step, All In Focus: Learning to Solve Vision-Language Problems with Integrated Attention},
+    journal        = {IEEE Transactions on Pattern Analysis and Machine Intelligence (IEEE TPAMI)},
+    Year           = {2024}
+}
 ```
