@@ -9,10 +9,8 @@ from typing import Optional, Tuple, Union
 import numpy as np
 import logging
 
-from lib.modules.graph.gat_conv import GATConvCustomv1, GATv2ConvCustomv1, GATv2ConvCustomv2
+from lib.modules.graph.gat_conv import GATv2ConvCustomv1, GATv2ConvCustomv2
 from torch_geometric.utils import to_dense_adj, dense_to_sparse
-# from torch_geometric.nn import GATConv
-from lib.modules.graph.gat_conv import GraphDecoder
 
 
 logger = logging.getLogger(__name__)
@@ -53,9 +51,6 @@ def get_image_encoder(data_name, img_dim, embed_size, opt, precomp_enc_type='bas
 
 def get_graph_encoder(embed_size, graph_layer_num=5, graph_head_num=1, opt=None):
     return EncoderGraph(embed_size=embed_size, graph_layer_num=graph_layer_num, graph_head_num=graph_head_num, opt=opt)
-
-def get_graph_encoderdecoder(embed_size, graph_layer_num=5, graph_head_num=1, opt=None):
-    return EncoderDecoderGraph(embed_size=embed_size, graph_layer_num=graph_layer_num, graph_head_num=graph_head_num, opt=opt)
 
 # Vision Model with ResNet
 class EncoderImageFull(nn.Module):
